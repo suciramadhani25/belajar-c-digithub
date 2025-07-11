@@ -1,0 +1,70 @@
+#include <iostream>
+#include <string>
+#include <ctime>
+#include <cstdlib>
+#include <sstream> 
+
+using namespace std;
+
+void tampilkanDaftarBarang(string Barang[], int jumlah) {
+    cout << "daftarBarang:" << endl;
+    for (int i = 0; i < jumlah; i++) {
+        cout << i + 1 << ". " << Barang[i] << endl;
+    }
+}
+
+void gacha(string nama, string namaBarang, int tanggal, int bulan, int tahun, int angkaAcak) {
+    cout << "barangYangdipilih: " << namaBarang << endl;
+    if ((tanggal - angkaAcak) % 2 == 0) {
+        cout << nama << " mendapatkan kupon diskon sebesar 2%\n";
+    } else if ((tanggal - angkaAcak) % 5 == 0) {
+        cout << nama << " mendapatkan kupon diskon sebesar 5%\n";
+    } else {
+        cout << nama << " kurang beruntung untuk mendapatkan diskon\n";
+        cout << "tapi Tenang " << nama << " mendapatkan bonus 3 snack \n";
+    }
+    cout << "Angka Random: " << angkaAcak << endl << endl;
+}
+
+int main() {
+    string nama;
+    int tanggalLahir, bulanLahir, tahunLahir;
+    const int jumlahBarang = 5;
+    string daftarBarang[jumlahBarang] = {"baju", "sepatu", "hijab", "celana", "topi"};
+
+    srand(time(0));
+    for (int i = 0; i < 5; ++i) {
+        cout << "PERCOBAAN KE -" << i + 1 << endl;
+        int angkaAcak = rand() % 10 + 1;
+        cout << "=PROGRAM GACHA DISKON=\n";
+        cout << "\nMASUKKAN TANGGAL LAHIR MU DAN BERKESEMPATAN MEMENANGKAN HADIAH KUPON\n";
+        cout << "\nMasukkan Namamu: "; cin >> nama;
+        cout << "Masukkan Tanggal Lahirmu: "; cin >> tanggalLahir;
+        cout << "Masukkan Bulan Lahirmu: "; cin >> bulanLahir;
+        cout << "Masukkan Tahun Lahirmu: "; cin >> tahunLahir;
+        tampilkanDaftarBarang(daftarBarang, jumlahBarang);
+
+        string inputPilihan;
+        int pilihanBarang;
+
+        cout << "\nPilih nomor barang yang ingin kamu beli: ";
+        cin.ignore(); 
+        getline(cin, inputPilihan);
+
+        if (inputPilihan.empty()) {
+            cout << "Kamu tidak memilih barang apapun!\n\n";
+            continue;
+        }
+
+        stringstream ss(inputPilihan);
+        if (!(ss >> pilihanBarang) || pilihanBarang < 1 || pilihanBarang > jumlahBarang) {
+            cout << "Pilihan tidak valid. Silakan coba dengan menggunakan angka 1-5\n\n";
+            continue;
+        }
+
+        string barangDipilih = daftarBarang[pilihanBarang - 1];
+        gacha(nama, barangDipilih, tanggalLahir, bulanLahir, tahunLahir, angkaAcak);
+    }
+
+    return 0;
+}
